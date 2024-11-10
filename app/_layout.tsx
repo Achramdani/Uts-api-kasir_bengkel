@@ -1,37 +1,14 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import React from "react";
+import { Tabs } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <Tabs>
+      <Tabs.Screen name="index" options={{ title: "Home", headerShown: false, tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} /> }} />
+      <Tabs.Screen name="aktivitas" options={{ title: "Aktivitas", headerShown: false, tabBarIcon: ({ color }) => <Ionicons name="list" size={24} color={color} /> }} />
+      <Tabs.Screen name="transaksi" options={{ title: "Transaksi", headerShown: false, tabBarIcon: ({ color }) => <Ionicons name="cash" size={24} color={color} /> }} />
+      <Tabs.Screen name="profile" options={{ title: "Profile", headerShown: false, tabBarIcon: ({ color }) => <Ionicons name="person" size={24} color={color} /> }} />
+    </Tabs>
   );
 }
